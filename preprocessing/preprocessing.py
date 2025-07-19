@@ -1,21 +1,16 @@
 # ============ IMPORTS ============
-from google.colab import files
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 
-# ============ PASO 0: SUBIDA Y LECTURA ============
-uploaded = files.upload()
+# ============ PASO 0: LECTURA DIRECTA ============
 df = pd.read_csv('balanced_dataset.csv', low_memory=False)
 
 # ============ PASO 1: INGENIERÍA DE FECHAS ============
-# Parsear última consulta de crédito y generar variables temporales
 df['last_credit_pull_d'] = pd.to_datetime(df['last_credit_pull_d'], errors='coerce')
-# Extraer año y mes de la última consulta
 df['last_pull_year'] = df['last_credit_pull_d'].dt.year
 df['last_pull_month'] = df['last_credit_pull_d'].dt.month
-# Meses desde la última consulta hasta la fecha más reciente en el dataset
 ref = df['last_credit_pull_d'].max()
 df['months_since_last_pull'] = ((ref.year - df['last_credit_pull_d'].dt.year) * 12 +
                                 (ref.month - df['last_credit_pull_d'].dt.month))
@@ -47,19 +42,16 @@ df.to_csv('step3_nan_replaced.csv', index=False)
 print(f"P3 completado → {df.shape}")
 
 # ============ PASO 4: CONVERSIÓN DE TIPOS ============
-# Categóricas
 cat_cols = [
     'term', 'sub_grade', 'emp_length', 'home_ownership',
     'verification_status', 'purpose', 'addr_state', 'loan_status'
 ]
 for c in cat_cols:
     df[c] = df[c].astype('category')
-# Fecha y numéricas recién creadas permanecen numéricas
 df.to_csv('step4_types_converted.csv', index=False)
 print(f"P4 completado → {df.shape}")
 
 # ============ PASO 5: IMPUTACIÓN ============
-# Numéricas → mediana
 num_cols = [
     'loan_amnt', 'int_rate', 'annual_inc', 'dti',
     'delinq_2yrs', 'installment',
@@ -71,7 +63,6 @@ num_cols = [
 for c in num_cols:
     df[c] = df[c].fillna(df[c].median())
 
-# Categóricas → moda
 cat_impute_cols = [
     'term', 'sub_grade', 'emp_length', 'home_ownership',
     'verification_status', 'purpose', 'addr_state'
@@ -106,11 +97,9 @@ print(f"P8 completado → escalado de {len(num_cols)} vars")
 
 # ============ PASO 9: CODIFICACIÓN ============
 X = pd.read_csv('step8_X_scaled.csv')
-# Label Encoding (binarias/ordinales)
 X['term']       = LabelEncoder().fit_transform(X['term'])
 X['sub_grade']  = LabelEncoder().fit_transform(X['sub_grade'])
 X['emp_length'] = LabelEncoder().fit_transform(X['emp_length'])
-# One Hot Encoding (nominales)
 X = pd.get_dummies(
     X,
     columns=['verification_status', 'home_ownership', 'purpose', 'addr_state'],
@@ -135,13 +124,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 train = pd.concat([X_train, y_train], axis=1)
 test  = pd.concat([X_test, y_test], axis=1)
-# train1: sin 'id'
 train.drop(columns=['id']).to_csv('train1_prestamos.csv', index=False)
-# train2: completo (incluye 'id')
 train.to_csv('train2_prestamos.csv', index=False)
-# test1: sin 'id' ni 'loan_status'
 test.drop(columns=['id','loan_status']).to_csv('test1_prestamos.csv', index=False)
-# test2: completo (con 'id' y 'loan_status')
 test.to_csv('test2_prestamos.csv', index=False)
 print("P15 completado → archivos train1/2_prestamos & test1/2_prestamos generados")
 
