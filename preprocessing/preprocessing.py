@@ -59,7 +59,7 @@ def main():
     # Paso 5: Imputación
     num_cols = [
         'loan_amnt', 'int_rate', 'installment', 'annual_inc', 'dti',
-        'delinq_2yrs', 'delinq_amnt', 'chargeoff_within_12_mths',
+        'delinq_2yrs', 'chargeoff_within_12_mths',
         'collections_12_mths_ex_med', 'open_acc', 'inq_last_6mths',
         'total_acc', 'revol_bal', 'revol_util', 'total_rev_hi_lim',
         'tot_cur_bal', 'tot_coll_amt', 'pub_rec', 'acc_now_delinq',
