@@ -45,13 +45,11 @@ recall    = recall_score(y_true, y_pred)
 f1        = f1_score(y_true, y_pred)
 roc_auc   = roc_auc_score(y_true, y_proba)
 
-print("
---- Métricas en Test ---")
+print("--- Métricas en Test ---")
 print("Matriz de Confusión:")
 print(conf_mat)
 
-print("
-Classification Report:")
+print("Classification Report:")
 print(classification_report(
     y_true,
     y_pred,
@@ -64,4 +62,3 @@ print(f"ROC AUC: {roc_auc:.4f}")
 # --- 7. GUARDAR RESULTADOS ---
 df_resultados.to_csv('prediccion_prestamos.csv', index=False)
 print("Archivo 'prediccion_prestamos.csv' guardado exitosamente.")
-
