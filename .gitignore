@@ -1,0 +1,9 @@
+@"
+# Ignorar datos y resultados (no versionarlos)
+prediccion_prestamos.csv
+reporte_eda_dataset.html
+
+# Ignorar cachés y artefactos
+__pycache__/
+*.pyc
+"@ > .gitignore
