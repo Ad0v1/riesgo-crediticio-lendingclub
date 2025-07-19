@@ -15,11 +15,11 @@ def main():
     df_test  = pd.read_csv('test2_prestamos.csv')
 
     # 3. Preparar variables
-    X_train = df_train.drop(columns=['id','loan_status'])
-    y_train = df_train['loan_status'].astype(int)
-    X_test  = df_test.drop(columns=['id','loan_status'])
-    y_true  = df_test['loan_status'].astype(int)
-    ids_test = df_test['id']
+    X_train   = df_train.drop(columns=['id','loan_status'])
+    y_train   = df_train['loan_status'].astype(int)
+    X_test    = df_test.drop(columns=['id','loan_status'])
+    y_true    = df_test['loan_status'].astype(int)
+    ids_test  = df_test['id']
 
     # 4. Entrenar modelo
     modelo = LogisticRegression(max_iter=1000, random_state=42)
@@ -29,14 +29,13 @@ def main():
     y_pred  = modelo.predict(X_test)
     y_proba = modelo.predict_proba(X_test)[:,1]
 
-    # 6. DataFrame resultados
-    df_res = pd.DataFrame({
-        'id':                  ids_test,
-        'loan_status_true':    y_true,
-        'loan_status_pred':    y_pred,
-        'prob_fully_paid (%)': (100*y_proba).round(1),
-        'prob_charged_off (%)': (100*(1-y_proba)).round(1)
-    })
+    # 6. DataFrame resultados (incluye todas las columnas de X_test)
+    df_res = X_test.copy()
+    df_res['id']                   = ids_test.values
+    df_res['loan_status_pred']     = y_pred
+    df_res['prob_charged_off (%)'] = (100 * (1 - y_proba)).round(1)
+    df_res['prob_fully_paid (%)']  = (100 * y_proba).round(1)
+    df_res['loan_status_true']     = y_true.values
 
     # 7. Métricas
     print("\n--- Métricas en Test ---")
