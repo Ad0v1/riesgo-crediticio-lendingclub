@@ -45,5 +45,6 @@ jobs:
       with:
         name: reports-and-predictions
         path: |
-          eda/reporte_eda_dataset.html
-          training/prediccion_prestamos.csv
+          reporte_eda_dataset.html
+          prediccion_prestamos.csv
+
