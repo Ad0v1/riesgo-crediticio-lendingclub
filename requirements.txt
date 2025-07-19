@@ -1,0 +1,20 @@
+# Manipulación de datos
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Estadística y tests
+scipy>=1.9.0
+
+# Modelado y preprocesamiento
+scikit-learn>=1.2.0
+scikit-optimize>=0.9.0
+joblib>=1.2.0
+
+# Visualización interna y pipeline
+matplotlib>=3.6.0
+
+# Interfaz web (opcional)
+streamlit>=1.22.0
+
+# Soporte de Excel (si cargas .xlsx)
+openpyxl>=3.1.0
