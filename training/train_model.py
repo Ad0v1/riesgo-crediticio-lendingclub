@@ -46,7 +46,7 @@ df_resultados['loan_status_pred']     = y_pred
 df_resultados['prob_charged_off (%)'] = (100 * (1 - y_proba)).round(1)
 df_resultados['prob_fully_paid (%)']  = (100 * y_proba).round(1)
 df_resultados['loan_status_true']     = y_true.values
-df_resultados.to_csv('output/prediccion_prestamos_xgboost.csv', index=False)
+df_resultados.to_csv('prediccion_prestamos.csv', index=False)
 
 # --- 7. GUARDAR MÉTRICAS ---
 metrics = {
@@ -59,7 +59,7 @@ metrics = {
 }
 # Guardar en JSON para informes del pipeline
 import json
-with open('output/metricas_xgboost.json', 'w') as f:
+with open('metricas_xgboost.json', 'w') as f:
     json.dump(metrics, f, indent=4)
 
 # --- 8. OPCIONAL: Imprimir resumen en consola ---
