@@ -12,8 +12,8 @@ from sklearn.metrics import (
 )
 
 # --- 2. CARGAR DATOS ENTRENAMIENTO Y PRUEBA ---
-df_train = pd.read_csv('training/train2_prestamos.csv')
-df_test  = pd.read_csv('training/test2_prestamos.csv')
+df_train = pd.read_csv('train2_prestamos.csv')
+df_test  = pd.read_csv('test2_prestamos.csv')
 
 # --- 3. SEPARAR VARIABLES ---
 X_train  = df_train.drop(columns=['id', 'loan_status'])
